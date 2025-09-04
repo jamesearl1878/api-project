@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Info</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Add Employee Information</h1>
+  <form id="employeeForm">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required><br>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="department">Department:</label>
+    <input type="text" id="department" name="department" required><br>
+
+    <button type="submit">Add Employee</button>
+  </form>
+
+  <script>
+    document.getElementById('employeeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const employee = {
+        First_Name: document.getElementById('firstName').value,
+        Last_Name: document.getElementById('lastName').value,
+        Email: document.getElementById('email').value,
+        Department: document.getElementById('department').value
+      };
+
+      fetch('/api/employees', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(employee)
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert('Employee added successfully!');
+        document.getElementById('employeeForm').reset();
+      })
+      .catch(err => {
+        alert('Error adding employee.');
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html> 
